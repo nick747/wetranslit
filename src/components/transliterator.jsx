@@ -66,7 +66,7 @@ const Transliterator = () => {
   };
 
   return (
-    <div className="my-4 relative">
+    <div className="my-8 relative">
       <div
         id="copyBtn"
         className="absolute bottom-0 right-0 m-4 p-2 cursor-pointer rounded-md bg-[#121212]"
