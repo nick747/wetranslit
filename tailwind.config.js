@@ -9,6 +9,7 @@ export default {
       },
       backgroundColor: {
         accent: "#202020",
+        tone: "#111111",
       },
       textColor: {
         accent: "#dedede",

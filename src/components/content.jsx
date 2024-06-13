@@ -1,3 +1,5 @@
+import PhoneticTable from "./PhoneticTable";
+
 const Content = () => {
   return (
     <div id="content" className="flex flex-col">
@@ -8,6 +10,7 @@ const Content = () => {
         below how Russian letters sound and it will be converted to one. The
         table below can help you transliterate better.
       </p>
+      <PhoneticTable />
     </div>
   );
 };
