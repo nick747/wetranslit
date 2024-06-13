@@ -7,6 +7,12 @@ export default {
         title: "48px",
         normal: "16px",
       },
+      backgroundColor: {
+        accent: "#202020",
+      },
+      textColor: {
+        accent: "#dedede",
+      },
     },
   },
 
