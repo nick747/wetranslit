@@ -1,4 +1,5 @@
 import PhoneticTable from "./PhoneticTable";
+import Transliterator from "./transliterator";
 
 const Content = () => {
   return (
@@ -11,6 +12,7 @@ const Content = () => {
         table below can help you transliterate better.
       </p>
       <PhoneticTable />
+      <Transliterator />
     </div>
   );
 };
