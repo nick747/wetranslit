@@ -32,6 +32,39 @@ const Transliterator = () => {
 
     const handleInput = (event) => {
       const value = event.target.value;
+
+      let choices = [];
+      let temp = false;
+      const input = value.slice(-1);
+      for (const [key, valueArray] of Object.entries(dictionary)) {
+        temp = false;
+        valueArray.forEach((val) => {
+          if (val[0] === input.toLowerCase()) {
+            temp = true;
+          }
+        });
+
+        if (temp) {
+          choices.push(key);
+        }
+      }
+
+      // tolgo la lettera corrisponente e la metto all'inizio
+      for (let i = 0; i < choices.length; i++) {
+        if (choices[i] == findRussian(input.toLowerCase())) {
+          if (i == 0) {
+            choices.splice(i, 1);
+          } else {
+            choices.splice(i, i);
+          }
+        }
+      }
+
+      choices.unshift(findRussian(input.toLowerCase()));
+      console.log(choices);
+
+      // .unshift(<elemento>) per aggiungere all'inizio dell'array
+
       const initValue = value.slice(-2);
       let buffer = "";
 

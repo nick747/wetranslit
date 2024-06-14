@@ -4,8 +4,8 @@ const dictionary = {
   в: ["v"],
   г: ["g"],
   д: ["d"],
-  е: ["je"],
-  ё: ["jo"],
+  е: ["ye", "je"],
+  ё: ["yo", "jo"],
   ж: ["zh", "jh"],
   з: ["z"],
   и: ["i"],
@@ -30,8 +30,8 @@ const dictionary = {
   ы: ["y"],
   ь: ["*"],
   э: ["e"],
-  ю: ["ju"],
-  я: ["ja"],
+  ю: ["yu", "ju"],
+  я: ["ya", "ja"],
 };
 
 export default dictionary;
