@@ -64,8 +64,6 @@ const Transliterator = () => {
       choices.unshift(findRussian(input.toLowerCase()));
       console.log(choices);
 
-      // .unshift(<elemento>) per aggiungere all'inizio dell'array
-
       const initValue = value.slice(-2);
       let buffer = "";
 
