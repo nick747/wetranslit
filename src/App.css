@@ -18,3 +18,11 @@ html {
   transform: scale(1.1);
   background-color: #181818;
 }
+
+#phonetic_option {
+  transition: all 0.3s ease-in-out;
+}
+
+#phonetic_option:hover {
+  background-color: #111111;
+}

@@ -1,6 +1,6 @@
 const PhoneticElement = ({ russian, arr }) => {
   return (
-    <div id="phoneticElement" className="flex flex-col">
+    <div id="phonetic_element" className="flex flex-col">
       <div className="flex justify-center items-center p-1 bg-tone opacity-25 w-8 h-14">
         <p className="normal opacity-50 text-center">{arr.join(", ")}</p>
       </div>

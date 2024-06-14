@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "../App.css";
 import dictionary from "../logic/dictionary";
+import PhoneticOptions from "./PhoneticOptions";
 
 const findRussian = (buffer) => {
   const temp = buffer.toLowerCase();
@@ -26,6 +27,7 @@ const findLatin = (buffer) => {
 
 const Transliterator = () => {
   const [inputValue, setInputValue] = useState("");
+  const [choices, setChoices] = useState([]);
 
   useEffect(() => {
     const inputField = document.getElementById("transliterator");
@@ -34,7 +36,7 @@ const Transliterator = () => {
       const value = event.target.value;
 
       // get the russian choices for each pronunciation given
-      let choices = [];
+      let newChoices = [];
       let temp = false;
       const input = value.slice(-1);
       for (const [key, valueArray] of Object.entries(dictionary)) {
@@ -46,23 +48,24 @@ const Transliterator = () => {
         });
 
         if (temp) {
-          choices.push(key);
+          newChoices.push(key);
         }
       }
 
       // arrange the choices array so that the base transliteration is the in the first place
-      for (let i = 0; i < choices.length; i++) {
-        if (choices[i] == findRussian(input.toLowerCase())) {
-          if (i == 0) {
-            choices.splice(i, 1);
+      for (let i = 0; i < newChoices.length; i++) {
+        if (newChoices[i] === findRussian(input.toLowerCase())) {
+          if (i === 0) {
+            newChoices.splice(i, 1);
           } else {
-            choices.splice(i, i);
+            newChoices.splice(i, i);
           }
         }
       }
 
-      choices.unshift(findRussian(input.toLowerCase()));
-      console.log(choices);
+      newChoices.unshift(findRussian(input.toLowerCase()));
+      setChoices(newChoices);
+      console.log(newChoices);
 
       const initValue = value.slice(-2);
       let buffer = "";
@@ -106,13 +109,16 @@ const Transliterator = () => {
       >
         <span className="normal opacity-50">Copy</span>
       </div>
-      <textarea
-        id="transliterator"
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-        placeholder="Type here..."
-        className="w-full resize-none h-48 p-4 bg-[#202020] text-white text-base font-normal border-0 shadow-[0_0_10px_rgba(0,0,0,0.25)] outline-none align-text-top"
-      />
+      <div className="flex flex-col">
+        <PhoneticOptions choices={choices} />
+        <textarea
+          id="transliterator"
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+          placeholder="Type here..."
+          className="w-full resize-none h-48 p-4 bg-[#202020] text-white text-base font-normal border-0 shadow-[0_0_10px_rgba(0,0,0,0.25)] outline-none align-text-top"
+        />
+      </div>
     </div>
   );
 };
