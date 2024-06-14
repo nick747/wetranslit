@@ -39,33 +39,39 @@ const Transliterator = () => {
       let newChoices = [];
       let temp = false;
       const input = value.slice(-1);
-      for (const [key, valueArray] of Object.entries(dictionary)) {
-        temp = false;
-        valueArray.forEach((val) => {
-          if (val[0] === input.toLowerCase()) {
-            temp = true;
-          }
-        });
 
-        if (temp) {
-          newChoices.push(key);
-        }
-      }
+      if (isNaN(input)) {
+        for (const [key, valueArray] of Object.entries(dictionary)) {
+          temp = false;
+          valueArray.forEach((val) => {
+            if (val[0] === input.toLowerCase()) {
+              temp = true;
+            }
+          });
 
-      // arrange the choices array so that the base transliteration is the in the first place
-      for (let i = 0; i < newChoices.length; i++) {
-        if (newChoices[i] === findRussian(input.toLowerCase())) {
-          if (i === 0) {
-            newChoices.splice(i, 1);
-          } else {
-            newChoices.splice(i, i);
+          if (temp) {
+            newChoices.push(key);
           }
         }
-      }
 
-      newChoices.unshift(findRussian(input.toLowerCase()));
-      setChoices(newChoices);
-      console.log(newChoices);
+        // arrange the choices array so that the base transliteration is the in the first place
+        for (let i = 0; i < newChoices.length; i++) {
+          if (newChoices[i] === findRussian(input.toLowerCase())) {
+            if (i === 0) {
+              newChoices.splice(i, 1);
+            } else {
+              newChoices.splice(i, i);
+            }
+          }
+        }
+
+        newChoices.unshift(findRussian(input.toLowerCase()));
+        setChoices(newChoices);
+      } else {
+        if (!isNaN(input) && isNaN(value[value.length - 2])) {
+          setInputValue(value.slice(0, -2) + newChoices[input]);
+        }
+      }
 
       const initValue = value.slice(-2);
       let buffer = "";
