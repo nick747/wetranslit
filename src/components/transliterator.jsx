@@ -33,6 +33,7 @@ const Transliterator = () => {
     const handleInput = (event) => {
       const value = event.target.value;
 
+      // get the russian choices for each pronunciation given
       let choices = [];
       let temp = false;
       const input = value.slice(-1);
@@ -49,7 +50,7 @@ const Transliterator = () => {
         }
       }
 
-      // tolgo la lettera corrisponente e la metto all'inizio
+      // arrange the choices array so that the base transliteration is the in the first place
       for (let i = 0; i < choices.length; i++) {
         if (choices[i] == findRussian(input.toLowerCase())) {
           if (i == 0) {
