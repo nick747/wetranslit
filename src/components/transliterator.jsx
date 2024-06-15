@@ -79,7 +79,11 @@ const Transliterator = () => {
           newChoices.unshift(findRussian(input));
         }
 
-        setChoices(newChoices);
+        if (newChoices.length != 1) {
+          setChoices(newChoices);
+        } else {
+          setChoices([]);
+        }
       } else {
         if (!isNaN(input) && isNaN(value[value.length - 2])) {
           setInputValue(value.slice(0, -2) + choices[input - 1]);
