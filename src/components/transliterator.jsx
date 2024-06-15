@@ -75,7 +75,10 @@ const Transliterator = () => {
           }
         }
 
-        newChoices.unshift(findRussian(input.toLowerCase()));
+        if (findRussian(input) != input) {
+          newChoices.unshift(findRussian(input));
+        }
+
         setChoices(newChoices);
       } else {
         if (!isNaN(input) && isNaN(value[value.length - 2])) {
