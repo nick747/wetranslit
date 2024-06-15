@@ -56,7 +56,11 @@ const Transliterator = () => {
           });
 
           if (temp) {
-            newChoices.push(key);
+            if (input.toUpperCase() == input) {
+              newChoices.push(key.toUpperCase());
+            } else {
+              newChoices.push(key);
+            }
           }
         }
 
