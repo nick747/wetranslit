@@ -28,6 +28,7 @@ const findLatin = (buffer) => {
 const Transliterator = () => {
   const [inputValue, setInputValue] = useState("");
   const [choices, setChoices] = useState([]);
+  const [bufferLength, setBufferLength] = useState(2);
 
   useEffect(() => {
     const inputField = document.getElementById("transliterator");
@@ -35,12 +36,17 @@ const Transliterator = () => {
     const handleInput = (event) => {
       const value = event.target.value;
 
-      // get the russian choices for each pronunciation given
-      let newChoices = [];
-      let temp = false;
+      if (value.length === 0) {
+        setChoices([]);
+        return;
+      }
+
       const input = value.slice(-1);
 
       if (isNaN(input)) {
+        let newChoices = [];
+        let temp = false;
+
         for (const [key, valueArray] of Object.entries(dictionary)) {
           temp = false;
           valueArray.forEach((val) => {
@@ -54,7 +60,7 @@ const Transliterator = () => {
           }
         }
 
-        // arrange the choices array so that the base transliteration is the in the first place
+        // Arrange the choices array so that the base transliteration is in the first place
         for (let i = 0; i < newChoices.length; i++) {
           if (newChoices[i] === findRussian(input.toLowerCase())) {
             if (i === 0) {
@@ -69,18 +75,18 @@ const Transliterator = () => {
         setChoices(newChoices);
       } else {
         if (!isNaN(input) && isNaN(value[value.length - 2])) {
-          setInputValue(value.slice(0, -2) + newChoices[input]);
+          setInputValue(value.slice(0, -2) + choices[input - 1]);
         }
       }
 
-      const initValue = value.slice(-2);
+      const initValue = value.slice(-bufferLength);
       let buffer = "";
 
       for (let i = 0; i < initValue.length; i++) {
         buffer += findLatin(initValue[i]);
       }
 
-      if (buffer.length > 2) {
+      if (buffer.length > bufferLength) {
         setInputValue(value.slice(0, -1) + findRussian(buffer.slice(-1)));
       } else {
         const russian = findRussian(buffer);
@@ -92,6 +98,8 @@ const Transliterator = () => {
           setInputValue(value.slice(0, -1) + findRussian(buffer[1]));
         }
       }
+
+      setBufferLength(2);
     };
 
     inputField.addEventListener("input", handleInput);
@@ -99,11 +107,17 @@ const Transliterator = () => {
     return () => {
       inputField.removeEventListener("input", handleInput);
     };
-  }, []);
+  }, [choices, bufferLength]);
 
   const handleCopy = () => {
     const inputField = document.getElementById("transliterator");
     navigator.clipboard.writeText(inputField.value);
+  };
+
+  const handleChoiceClick = (choice) => {
+    setInputValue((prevValue) => prevValue.slice(0, -1) + choice);
+    setBufferLength(1); // Set buffer length to 1 after a choice is selected
+    setChoices([]); // Clear choices after selection
   };
 
   return (
@@ -116,7 +130,7 @@ const Transliterator = () => {
         <span className="normal opacity-50">Copy</span>
       </div>
       <div className="flex flex-col">
-        <PhoneticOptions choices={choices} />
+        <PhoneticOptions choices={choices} onChoiceClick={handleChoiceClick} />
         <textarea
           id="transliterator"
           value={inputValue}
