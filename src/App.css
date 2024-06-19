@@ -6,6 +6,11 @@ html {
   color: white;
 }
 
+html,
+body {
+  font-size: 16px;
+}
+
 #transliterator::placeholder {
   color: rgba(255, 255, 255, 0.5); /* White color with 50% opacity */
 }

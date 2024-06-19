@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        title: "48px",
-        normal: "16px",
+        title: "3rem",
+        normal: "1rem",
       },
       backgroundColor: {
         accent: "#202020",
