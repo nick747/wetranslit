@@ -5,10 +5,12 @@ import "./App.css";
 
 function App() {
   return (
-    <div id="app" className="h-dvh px-60 py-24">
-      <Header />
-      <Content />
-      <Footer />
+    <div className="w-full flex justify-center items-center">
+      <div id="app" className="h-dvh w-3/4 py-24">
+        <Header />
+        <Content />
+        <Footer />
+      </div>
     </div>
   );
 }
