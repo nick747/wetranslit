@@ -1,39 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../App.css";
 import dictionary from "../logic/dictionary";
+import { findLatin, findRussian } from "../logic/find";
 import PhoneticOptions from "./PhoneticOptions";
-
-const findRussian = (buffer) => {
-  const temp = buffer.toLowerCase();
-  for (const [key, value] of Object.entries(dictionary)) {
-    if (value.includes(temp)) {
-      return buffer[0] === buffer[0].toUpperCase() ? key.toUpperCase() : key;
-    }
-  }
-  return buffer;
-};
-
-const findLatin = (buffer) => {
-  const temp = buffer.toLowerCase();
-  for (const [key, value] of Object.entries(dictionary)) {
-    if (key === temp) {
-      return buffer[0] === buffer[0].toUpperCase()
-        ? `${value[0].charAt(0).toUpperCase()}${value[0].slice(1)}`
-        : value[0];
-    }
-  }
-  return buffer;
-};
 
 const Transliterator = () => {
   const [inputValue, setInputValue] = useState("");
   const [choices, setChoices] = useState([]);
   const [bufferLength, setBufferLength] = useState(2);
+  const ignoreInput = useRef(false);
+  const inputField = useRef();
 
   useEffect(() => {
-    const inputField = document.getElementById("transliterator");
+    //TODO: useRef
 
     const handleInput = (event) => {
+      if (ignoreInput.current) {
+        ignoreInput.current = false;
+        return;
+      }
+
       const value = event.target.value;
 
       if (value.length === 0) {
@@ -64,7 +50,6 @@ const Transliterator = () => {
           }
         }
 
-        // Arrange the choices array so that the base transliteration is in the first place
         for (let i = 0; i < newChoices.length; i++) {
           if (newChoices[i] === findRussian(input.toLowerCase())) {
             if (i === 0) {
@@ -113,10 +98,11 @@ const Transliterator = () => {
       setBufferLength(2);
     };
 
-    inputField.addEventListener("input", handleInput);
+    const currentInputField = inputField.current;
+    currentInputField.addEventListener("input", handleInput);
 
     return () => {
-      inputField.removeEventListener("input", handleInput);
+      currentInputField.removeEventListener("input", handleInput);
     };
   }, [choices, bufferLength]);
 
@@ -127,8 +113,14 @@ const Transliterator = () => {
 
   const handleChoiceClick = (choice) => {
     setInputValue((prevValue) => prevValue.slice(0, -1) + choice);
-    setBufferLength(1); // Set buffer length to 1 after a choice is selected
-    setChoices([]); // Clear choices after selection
+    setBufferLength(1); // set buffer length to 1 after a choice is selected
+    setChoices([]); // clear choices after selection
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Backspace" || event.key === "Delete") {
+      ignoreInput.current = true; // Set the flag to ignore input event
+    }
   };
 
   return (
@@ -143,8 +135,10 @@ const Transliterator = () => {
       <div className="flex flex-col">
         <PhoneticOptions choices={choices} onChoiceClick={handleChoiceClick} />
         <textarea
+          ref={inputField}
           id="transliterator"
           value={inputValue}
+          onKeyDown={handleKeyDown}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder="Type here..."
           className="w-full resize-none h-48 p-4 bg-[#202020] text-white text-base font-normal border-0 shadow-[0_0_10px_rgba(0,0,0,0.25)] outline-none align-text-top"
