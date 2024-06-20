@@ -5,8 +5,8 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="w-full flex justify-center items-center">
-      <div id="app" className="h-dvh w-3/4 py-24">
+    <div className="w-full h-screen flex justify-center items-center">
+      <div id="app" className="h-screen w-3/4 py-24">
         <Header />
         <Content />
         <Footer />

@@ -7,8 +7,8 @@ const PhoneticTable = () => {
       id="phonetic_table"
       className="my-4 flex justify-center items-center flex-wrap"
     >
-      {Object.entries(dictionary).map(([key, valueArray]) => (
-        <PhoneticElement russian={key} arr={valueArray} />
+      {Object.entries(dictionary).map(([key, valueArray], i) => (
+        <PhoneticElement russian={key} arr={valueArray} key={i} />
       ))}
     </div>
   );
