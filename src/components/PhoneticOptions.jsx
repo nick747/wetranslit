@@ -1,5 +1,3 @@
-import PhoneticOption from "./PhoneticOption";
-
 const PhoneticOptions = ({ choices, onChoiceClick }) => {
   return (
     <div
@@ -7,7 +5,13 @@ const PhoneticOptions = ({ choices, onChoiceClick }) => {
       className="flex w-full h-12 bg-[#161616] text-white shadow-[0_0_10px_rgba(0,0,0,0.25)]"
     >
       {choices.map((choice, index) => (
-        <PhoneticOption choice={choice} onChoiceClick={onChoiceClick} />
+        <div
+          id="phonetic_option"
+          className="flex gap-1 grow h-full justify-center items-center p-1 opacity-50 w-32 cursor-pointer"
+          onClick={() => onChoiceClick(choice)}
+        >
+          <p className="normal font-bold">{choice}</p>
+        </div>
       ))}
     </div>
   );
