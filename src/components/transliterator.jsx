@@ -12,8 +12,6 @@ const Transliterator = () => {
   const inputField = useRef();
 
   useEffect(() => {
-    //TODO: useRef
-
     const handleInput = (event) => {
       if (ignoreInput.current) {
         ignoreInput.current = false;
